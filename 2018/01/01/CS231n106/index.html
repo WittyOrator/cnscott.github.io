@@ -51,7 +51,7 @@
 <link href="/cnscott.github.io/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Machine Learning,Deep Learning,CS231n," />
 
 
 
@@ -67,12 +67,22 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="A Little Coder">
-<meta property="og:url" content="https://cnscott.github.io/index.html">
+<meta name="description" content="神经网络 第2部分：设置Data和Loss这一部分主要讨论神经网络中一些数据的设置原则，包括：  数据X的预处理 权值W的初始化 正则化 损失函数Loss的选择  1.数据预处理0均值化0均值化是将数据调整为以0为中心的处理。 最常见的数据预处理，将数据Xi中每一维的数据都减去这一维的均值，代码为：X -= np.mean(X, axis = 0)。 对于图片数据来说，因为X中的值都在0与255之">
+<meta name="keywords" content="Machine Learning,Deep Learning,CS231n">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CS231n 2018 课程笔记 模块一 06">
+<meta property="og:url" content="https://cnscott.github.io/2018/01/01/CS231n106/index.html">
 <meta property="og:site_name" content="A Little Coder">
+<meta property="og:description" content="神经网络 第2部分：设置Data和Loss这一部分主要讨论神经网络中一些数据的设置原则，包括：  数据X的预处理 权值W的初始化 正则化 损失函数Loss的选择  1.数据预处理0均值化0均值化是将数据调整为以0为中心的处理。 最常见的数据预处理，将数据Xi中每一维的数据都减去这一维的均值，代码为：X -= np.mean(X, axis = 0)。 对于图片数据来说，因为X中的值都在0与255之">
+<meta property="og:image" content="http://cs231n.github.io/assets/nn2/prepro1.jpeg">
+<meta property="og:image" content="http://cs231n.github.io/assets/nn2/prepro2.jpeg">
+<meta property="og:image" content="http://cs231n.github.io/assets/nn2/cifar10pca.jpeg">
+<meta property="og:image" content="http://cs231n.github.io/assets/nn2/dropout.jpeg">
+<meta property="og:updated_time" content="2018-05-28T10:00:51.723Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="A Little Coder">
+<meta name="twitter:title" content="CS231n 2018 课程笔记 模块一 06">
+<meta name="twitter:description" content="神经网络 第2部分：设置Data和Loss这一部分主要讨论神经网络中一些数据的设置原则，包括：  数据X的预处理 权值W的初始化 正则化 损失函数Loss的选择  1.数据预处理0均值化0均值化是将数据调整为以0为中心的处理。 最常见的数据预处理，将数据Xi中每一维的数据都减去这一维的均值，代码为：X -= np.mean(X, axis = 0)。 对于图片数据来说，因为X中的值都在0与255之">
+<meta name="twitter:image" content="http://cs231n.github.io/assets/nn2/prepro1.jpeg">
 
 
 
@@ -102,13 +112,13 @@
 
 
 
-  <link rel="canonical" href="https://cnscott.github.io/"/>
+  <link rel="canonical" href="https://cnscott.github.io/2018/01/01/CS231n106/"/>
 
 
 
 
 
-  <title>A Little Coder</title>
+  <title>CS231n 2018 课程笔记 模块一 06 | A Little Coder</title>
   
 
 
@@ -127,8 +137,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -191,9 +200,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -223,9 +232,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/cnscott.github.io/2018/01/01/CS231n106/" itemprop="url">CS231n 2018 课程笔记 模块一 06</a></h1>
+          <h1 class="post-title" itemprop="name headline">CS231n 2018 课程笔记 模块一 06</h1>
         
 
         <div class="post-meta">
@@ -297,9 +304,7 @@
       
 
       
-        
-          
-            <h2 id="神经网络-第2部分：设置Data和Loss"><a href="#神经网络-第2部分：设置Data和Loss" class="headerlink" title="神经网络 第2部分：设置Data和Loss"></a><a href="http://cs231n.github.io/neural-networks-2/" target="_blank" rel="external">神经网络 第2部分：设置Data和Loss</a></h2><p>这一部分主要讨论神经网络中一些数据的设置原则，包括：</p>
+        <h2 id="神经网络-第2部分：设置Data和Loss"><a href="#神经网络-第2部分：设置Data和Loss" class="headerlink" title="神经网络 第2部分：设置Data和Loss"></a><a href="http://cs231n.github.io/neural-networks-2/" target="_blank" rel="external">神经网络 第2部分：设置Data和Loss</a></h2><p>这一部分主要讨论神经网络中一些数据的设置原则，包括：</p>
 <ol>
 <li><strong>数据X的预处理</strong></li>
 <li><strong>权值W的初始化</strong></li>
@@ -429,8 +434,6 @@ def predict(X):
 <hr>
 <p>© 2018 by 0ne.tech</p>
 
-          
-        
       
     </div>
     
@@ -445,163 +448,40 @@ def predict(X):
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://cnscott.github.io/cnscott.github.io/2017/08/24/MyFirstPost/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="0ne.tech">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/cnscott.github.io/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="A Little Coder">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/cnscott.github.io/2017/08/24/MyFirstPost/" itemprop="url">MyFirstPost</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-24T14:59:35+08:00">
-                2017-08-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/cnscott.github.io/categories/essay/" itemprop="url" rel="index">
-                    <span itemprop="name">essay</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
+            <a href="/cnscott.github.io/tags/Machine-Learning/" rel="tag"># Machine Learning</a>
           
-
+            <a href="/cnscott.github.io/tags/Deep-Learning/" rel="tag"># Deep Learning</a>
           
-            
+            <a href="/cnscott.github.io/tags/CS231n/" rel="tag"># CS231n</a>
           
-
-          
-          
-
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="这个人很懒，什么也没有留下。"><a href="#这个人很懒，什么也没有留下。" class="headerlink" title="这个人很懒，什么也没有留下。"></a>这个人很懒，什么也没有留下。</h1><ul>
-<li>恩</li>
-<li>是的</li>
-<li>没错<blockquote>
-<p>哈哈哈</p>
-</blockquote>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
       
 
       
       
-        <div class="post-eof"></div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/cnscott.github.io/2017/08/24/MyFirstPost/" rel="next" title="MyFirstPost">
+                <i class="fa fa-chevron-left"></i> MyFirstPost
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
       
     </footer>
   </div>
@@ -611,10 +491,11 @@ def predict(X):
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -622,6 +503,10 @@ def predict(X):
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -642,8 +527,17 @@ def predict(X):
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/cnscott.github.io/images/avatar.gif"
@@ -707,6 +601,22 @@ def predict(X):
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#神经网络-第2部分：设置Data和Loss"><span class="nav-number">1.</span> <span class="nav-text">神经网络 第2部分：设置Data和Loss</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-数据预处理"><span class="nav-number">2.</span> <span class="nav-text">1.数据预处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#0均值化"><span class="nav-number">2.1.</span> <span class="nav-text">0均值化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标准化"><span class="nav-number">2.2.</span> <span class="nav-text">标准化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主成份分析-PCA"><span class="nav-number">2.3.</span> <span class="nav-text">主成份分析(PCA)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结"><span class="nav-number">2.4.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-权值初始化"><span class="nav-number">3.</span> <span class="nav-text">2.权值初始化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#0值初始化"><span class="nav-number">3.1.</span> <span class="nav-text">0值初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#随机小数值初始化"><span class="nav-number">3.2.</span> <span class="nav-text">随机小数值初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bias初始化"><span class="nav-number">3.3.</span> <span class="nav-text">Bias初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结-1"><span class="nav-number">3.4.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-正则化"><span class="nav-number">4.</span> <span class="nav-text">3.正则化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#L2范数"><span class="nav-number">4.1.</span> <span class="nav-text">L2范数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#L1范数"><span class="nav-number">4.2.</span> <span class="nav-text">L1范数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Max-norm-constraints"><span class="nav-number">4.3.</span> <span class="nav-text">Max norm constraints</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#随机失活（Dropout）"><span class="nav-number">4.4.</span> <span class="nav-text">随机失活（Dropout）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正向传递中的噪声"><span class="nav-number">4.5.</span> <span class="nav-text">正向传递中的噪声</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bias正则化"><span class="nav-number">4.6.</span> <span class="nav-text">Bias正则化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结-2"><span class="nav-number">4.7.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-损失函数（Loss-functions）"><span class="nav-number">5.</span> <span class="nav-text">4.损失函数（Loss functions）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#分类"><span class="nav-number">5.1.</span> <span class="nav-text">分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题：大量的类别"><span class="nav-number">5.2.</span> <span class="nav-text">问题：大量的类别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#属性分类"><span class="nav-number">5.3.</span> <span class="nav-text">属性分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#回归（Regression）"><span class="nav-number">5.4.</span> <span class="nav-text">回归（Regression）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -823,10 +733,10 @@ def predict(X):
   
 
   
-    <script type="text/javascript" src="/cnscott.github.io/js/src/scrollspy.js?v=5.1.2"></script>
+  <script type="text/javascript" src="/cnscott.github.io/js/src/scrollspy.js?v=5.1.2"></script>
 <script type="text/javascript" src="/cnscott.github.io/js/src/post-details.js?v=5.1.2"></script>
 
-  
+
 
   
 
