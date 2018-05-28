@@ -169,7 +169,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Startseite
+            Home
           </a>
         </li>
       
@@ -235,7 +235,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-01T22:00:00+08:00">
                 2018-01-01
@@ -256,7 +256,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">in</span>
+                <span class="post-meta-item-text">In</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -413,12 +413,17 @@ def predict(X):
 <h3 id="Bias正则化"><a href="#Bias正则化" class="headerlink" title="Bias正则化"></a>Bias正则化</h3><p>还记得Bias吗？我们一般不正则化Bias，因为它不与数据交互。</p>
 <h3 id="小结-2"><a href="#小结-2" class="headerlink" title="小结"></a>小结</h3><p><strong>一般最最常用的正则化方式是单独使用L2范数，然后在每层使用\(p = 0.5\)的随机失活，\(p\)可以使用验证集调整。</strong></p>
 <h2 id="4-损失函数（Loss-functions）"><a href="#4-损失函数（Loss-functions）" class="headerlink" title="4.损失函数（Loss functions）"></a>4.损失函数（Loss functions）</h2><p>损失函数是一个监督学习的问题，用来衡量预测和真实标签的匹配度。整体的数据损失是每个样本损失的均值，\(L = \frac{1}{N} \sum_i L_i\)，N是训练样本数。我们将输出层的激活函数简写为\(f = f(x_i; W)\)，接下来我们讨论一些问题：</p>
-<h3 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h3><p>假设数据集中每个样本只有一个正确的标签，一个最常用的损失函数是SVM分类器使用的铰链损失（hinge loss）：<br>$$L_i = \sum_{j\neq y_i} \max(0, f_j - f_{y_i} + 1)$$<br>有些报道称用平方铰链损失（squared hinge loss）\(\max(0, f_j - f_{y_i} + 1)^2\)具有更好的性能。另一种常用的损失函数是Softmax分类器使用的交叉熵损失（cross-entropy loss）：<br>$$L<em>i = -\log\left(\frac{e^{f\</em>{y_i}}}{ \sum_j e^{f_j} }\right)$$</p>
-<h3 id="问题：大量的类别"><a href="#问题：大量的类别" class="headerlink" title="问题：大量的类别"></a>问题：大量的类别</h3><p>当标签种类非常多（例如字典里的词数或者ImageNet中的22000个图片类别）时，可能需要用到分层Softmax(Hierarchical Softmax)。分层Softmax将所有类别标签分解到一棵二叉树中，每一个类别标签表示为树上的一条路径，详细的内容见将其<a href="https://arxiv.org/pdf/1310.4546.pdf" target="_blank" rel="external">应用于Word2Vec的论文</a>。</p>
-<h3 id="属性分类"><a href="#属性分类" class="headerlink" title="属性分类"></a>属性分类</h3><p>输出向量不是含有每个样本的单个的类别标签，而是含有每个样本中所具有的多个属性标签，比如说Instagram上的一张图片含有多个关键字。一种明智的做法是为每一个属性创建一个独立的二分类器：<br>$$L_i = \sum_j \max(0, 1 - y_{ij} f_j)$$<br>上式中\(j\)为属性种类，\(y_{ij}\)为标签，表示\(i\)样本是否具有\(j\)属性，取值为+1或-1。\(f_j\)为预测值，正值表示预测具有\(j\)属性，否则不具有\(j\)属性。</p>
-<p>另一种可选的方法是为每个属性单独的训练一个逻辑回归（logistic regression）分类器。一个二元逻辑回归分类器只拥有两个类别（0,1），然后计算类别1的概率：<br>$$P(y = 1 \mid x; w, b) = \frac{1}{1 + e^{-(w^Tx +b)}} = \sigma (w^Tx + b)$$<br>因为类别1和类别0的概率之和为1，所以类别0的概率为\(P(y = 0 \mid x; w, b) = 1 - P(y = 1 \mid x; w,b)\)。当\(\sigma (w^Tx + b) &gt; 0.5\)或\(w^Tx +b &gt; 0\)时样本为正例，即分类为1。损失函数为：<br>$$L_i = - \sum_j y_{ij} \log(\sigma(f_j)) + (1 - y_{ij}) \log(1 - \sigma(f_j))$$<br>损失函数对\(f\)求导结果非常简单 \(\partial{L_i} / \partial{f_j} = y_{ij} - \sigma(f_j)\)。</p>
-<h3 id="回归（Regression）"><a href="#回归（Regression）" class="headerlink" title="回归（Regression）"></a>回归（Regression）</h3><p>回归是预测连续实值的任务，比如预测房价。在这种任务中，损失函数一般计算预测值和实际值差值的L2范数平方或L1范数。使用L2范数平方的损失函数表示为：<br>$$L_i = \Vert f - y_i \Vert_2^2$$<br>之所以用L2范数平方是因为求梯度简单。<strong>注意回归问题比分类问题难优化的多，处理回归问题应该最先考虑是否能转化为分类问题。</strong></p>
-<p>###小节###<br><strong>在每类任务中采用最常用的损失函数</strong></p>
+<h3 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h3><p>假设数据集中每个样本只有一个正确的标签，一个最常用的损失函数是SVM分类器使用的铰链损失（hinge loss）：</p>
+<script type="math/tex; mode=display">L\_i = \sum\_{j\neq y\_i} \max(0, f\_j - f\_{y\_i} + 1)</script><p>有些报道称用平方铰链损失（squared hinge loss）\(\max(0, f_j - f_{y_i} + 1)^2\)具有更好的性能。另一种常用的损失函数是Softmax分类器使用的交叉熵损失（cross-entropy loss）：</p>
+<script type="math/tex; mode=display">L_i = -\log\left(\frac{e^{f\_{y\_i}}}{ \sum\_j e^{f\_j} }\right)</script><h3 id="问题：大量的类别"><a href="#问题：大量的类别" class="headerlink" title="问题：大量的类别"></a>问题：大量的类别</h3><p>当标签种类非常多（例如字典里的词数或者ImageNet中的22000个图片类别）时，可能需要用到分层Softmax(Hierarchical Softmax)。分层Softmax将所有类别标签分解到一棵二叉树中，每一个类别标签表示为树上的一条路径，详细的内容见将其<a href="https://arxiv.org/pdf/1310.4546.pdf" target="_blank" rel="external">应用于Word2Vec的论文</a>。</p>
+<h3 id="属性分类"><a href="#属性分类" class="headerlink" title="属性分类"></a>属性分类</h3><p>输出向量不是含有每个样本的单个的类别标签，而是含有每个样本中所具有的多个属性标签，比如说Instagram上的一张图片含有多个关键字。一种明智的做法是为每一个属性创建一个独立的二分类器：</p>
+<script type="math/tex; mode=display">L\_i = \sum\_j \max(0, 1 - y\_{ij} f\_j)</script><p>上式中\(j\)为属性种类，\(y_{ij}\)为标签，表示\(i\)样本是否具有\(j\)属性，取值为+1或-1。\(f_j\)为预测值，正值表示预测具有\(j\)属性，否则不具有\(j\)属性。</p>
+<p>另一种可选的方法是为每个属性单独的训练一个逻辑回归（logistic regression）分类器。一个二元逻辑回归分类器只拥有两个类别（0,1），然后计算类别1的概率：</p>
+<script type="math/tex; mode=display">P(y = 1 \mid x; w, b) = \frac{1}{1 + e^{-(w^Tx +b)}} = \sigma (w^Tx + b)</script><p>因为类别1和类别0的概率之和为1，所以类别0的概率为\(P(y = 0 \mid x; w, b) = 1 - P(y = 1 \mid x; w,b)\)。当\(\sigma (w^Tx + b) &gt; 0.5\)或\(w^Tx +b &gt; 0\)时样本为正例，即分类为1。损失函数为：</p>
+<script type="math/tex; mode=display">L\_i = - \sum\_j y\_{ij} \log(\sigma(f\_j)) + (1 - y\_{ij}) \log(1 - \sigma(f\_j))</script><p>损失函数对\(f\)求导结果非常简单 \(\partial{L_i} / \partial{f_j} = y_{ij} - \sigma(f_j)\)。</p>
+<h3 id="回归（Regression）"><a href="#回归（Regression）" class="headerlink" title="回归（Regression）"></a>回归（Regression）</h3><p>回归是预测连续实值的任务，比如预测房价。在这种任务中，损失函数一般计算预测值和实际值差值的L2范数平方或L1范数。使用L2范数平方的损失函数表示为：</p>
+<script type="math/tex; mode=display">L\_i = \Vert f - y\_i \Vert\_2^2</script><p>之所以用L2范数平方是因为求梯度简单。<strong>注意回归问题比分类问题难优化的多，处理回归问题应该最先考虑是否能转化为分类问题。</strong></p>
+<h3 id="小节"><a href="#小节" class="headerlink" title="小节"></a>小节</h3><p><strong>在每类任务中采用最常用的损失函数</strong></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
 <li><strong>对数据X进行0均值化处理</strong></li>
 <li><strong>使用<code>w = np.random.randn(n) * sqrt(2.0/n)</code>初始化权值W，n为输入变量个数</strong></li>
@@ -505,7 +510,7 @@ def predict(X):
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-24T14:59:35+08:00">
                 2017-08-24
@@ -526,7 +531,7 @@ def predict(X):
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">in</span>
+                <span class="post-meta-item-text">In</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -661,7 +666,7 @@ def predict(X):
               <a href="/cnscott.github.io/archives">
             
                 <span class="site-state-item-count">2</span>
-                <span class="site-state-item-name">Artikel</span>
+                <span class="site-state-item-name">posts</span>
               </a>
             </div>
           
@@ -672,7 +677,7 @@ def predict(X):
             <div class="site-state-item site-state-categories">
               
                 <span class="site-state-item-count">2</span>
-                <span class="site-state-item-name">Kategorien</span>
+                <span class="site-state-item-name">categories</span>
               
             </div>
           
@@ -683,7 +688,7 @@ def predict(X):
             <div class="site-state-item site-state-tags">
               
                 <span class="site-state-item-count">4</span>
-                <span class="site-state-item-name">Tags</span>
+                <span class="site-state-item-name">tags</span>
               
             </div>
           
@@ -734,7 +739,7 @@ def predict(X):
 </div>
 
 
-  <div class="powered-by">Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a></div>
+  <div class="powered-by">Powered by <a class="theme-link" href="https://hexo.io">Hexo</a></div>
 
   <span class="post-meta-divider">|</span>
 
