@@ -77,6 +77,10 @@ theme: next
 stylus:
 compress: 
 
+# MathJax Support
+mathjax:
+  enable: true
+
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy: 
